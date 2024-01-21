@@ -80,24 +80,52 @@ resource_name = "Cat"
 script/source = "extends Sprite2D
 
 const TILE_SIZE = 128
+const MOVE_DURATION = 0.2
+
+var state = \"idle\"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if Input.is_action_just_pressed(\"ui_cancel\"):
+		get_tree().quit()
+	
+	var target = global_position
+	
 	if Input.is_action_just_pressed('ui_left'):
-		global_position.x = global_position.x - TILE_SIZE
+		target.x = global_position.x - TILE_SIZE
 		pass
 	if Input.is_action_just_pressed('ui_right'):
-		global_position.x = global_position.x + TILE_SIZE
+		target.x = global_position.x + TILE_SIZE
 		pass
 	if Input.is_action_just_pressed('ui_up'):
-		global_position.y = global_position.y - TILE_SIZE
+		target.y = global_position.y - TILE_SIZE
 		pass
 	pass
+	
+	if target != global_position:
+		move_to(target)
+
+func move_to(target_position):
+	if state == 'idle':
+		state = 'moving'
+		var tween = create_tween()
+		tween.tween_property(self, \"global_position\", target_position, MOVE_DURATION)
+		tween.connect('finished', move_to_finished)
+		
+		var scale_tween = create_tween()
+		scale_tween.tween_property(self, \"scale\", Vector2(1.2, 1.2), MOVE_DURATION / 2)
+		scale_tween.tween_property(self, \"scale\", Vector2(1.0, 1.0), MOVE_DURATION / 2)
+		
+		
+		
+func move_to_finished():
+	state = 'idle'
 "
 
 [node name="Main" type="Node2D"]
