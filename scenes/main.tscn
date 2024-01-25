@@ -1,9 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://dicwbthyafjcx"]
+[gd_scene load_steps=21 format=3 uid="uid://dicwbthyafjcx"]
 
 [ext_resource type="Texture2D" uid="uid://bfdg07llbfypf" path="res://assets/crossy_game_tilemap.png" id="1_8w4i1"]
 [ext_resource type="Texture2D" uid="uid://b0vhptpk0tvr5" path="res://assets/cat.png" id="2_v5so6"]
 [ext_resource type="Texture2D" uid="uid://cuccrsr326rgr" path="res://assets/car.png" id="3_kwasd"]
 [ext_resource type="Script" path="res://scenes/Car.gd" id="4_606il"]
+[ext_resource type="Texture2D" uid="uid://cwpvnx6fyuhgi" path="res://assets/turtle_body.png" id="5_bevs2"]
+[ext_resource type="Script" path="res://scenes/Turtle.gd" id="5_db8y4"]
+[ext_resource type="Texture2D" uid="uid://dyuocx7pr4c20" path="res://assets/turtle_head.png" id="6_lixxf"]
+[ext_resource type="Shader" path="res://scenes/turtle_body.gdshader" id="7_5ig74"]
+[ext_resource type="Texture2D" uid="uid://cfr2ly6lck5s7" path="res://assets/turtle_leg.png" id="7_r2wir"]
+[ext_resource type="Texture2D" uid="uid://v2trfsn23ego" path="res://assets/radial_fill.png" id="8_y2tp1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_23g8j"]
 texture = ExtResource("1_8w4i1")
@@ -174,6 +180,157 @@ size = Vector2(236, 119)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7stvn"]
 size = Vector2(45, 117)
 
+[sub_resource type="Animation" id="Animation_at6pa"]
+resource_name = "dive"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TurtleLeg:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-26, -29), Vector2(-26, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TurtleLeg2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(43, 31), Vector2(43, 6)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TurtleLeg3:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-26, 33), Vector2(-26, 3)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TurtleLeg4:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(43, -29), Vector2(43, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../TurtleHead:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-42, 0), Vector2(-22, 0)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"fade_out"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_mtmxi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TurtleLeg:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-26, -29)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TurtleLeg2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(43, 31)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TurtleLeg3:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-26, 33)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TurtleLeg4:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(43, -29)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../TurtleHead:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-42, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3u7at"]
+_data = {
+"RESET": SubResource("Animation_mtmxi"),
+"dive": SubResource("Animation_at6pa")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pdm8o"]
+shader = ExtResource("7_5ig74")
+shader_parameter/range = 0.0
+shader_parameter/mask_image = ExtResource("8_y2tp1")
+
 [node name="Main" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -216,3 +373,44 @@ position = Vector2(-128, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Car/HitDetectionArea2D"]
 position = Vector2(-6.5, -0.5)
 shape = SubResource("RectangleShape2D_7stvn")
+
+[node name="Turtle" type="Node2D" parent="."]
+position = Vector2(1216, 64)
+script = ExtResource("5_db8y4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Turtle"]
+root_node = NodePath("../Legs")
+libraries = {
+"": SubResource("AnimationLibrary_3u7at")
+}
+
+[node name="TurtleHead" type="Sprite2D" parent="Turtle"]
+position = Vector2(-42, 0)
+texture = ExtResource("6_lixxf")
+
+[node name="Legs" type="Node2D" parent="Turtle"]
+
+[node name="TurtleLeg" type="Sprite2D" parent="Turtle/Legs"]
+position = Vector2(-26, -29)
+texture = ExtResource("7_r2wir")
+
+[node name="TurtleLeg2" type="Sprite2D" parent="Turtle/Legs"]
+position = Vector2(43, 31)
+texture = ExtResource("7_r2wir")
+flip_h = true
+flip_v = true
+
+[node name="TurtleLeg3" type="Sprite2D" parent="Turtle/Legs"]
+position = Vector2(-26, 33)
+texture = ExtResource("7_r2wir")
+flip_h = true
+
+[node name="TurtleLeg4" type="Sprite2D" parent="Turtle/Legs"]
+position = Vector2(43, -29)
+texture = ExtResource("7_r2wir")
+flip_h = true
+
+[node name="TurtleBody" type="Sprite2D" parent="Turtle"]
+material = SubResource("ShaderMaterial_pdm8o")
+position = Vector2(11, 0)
+texture = ExtResource("5_bevs2")
