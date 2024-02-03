@@ -1,6 +1,6 @@
 extends Sprite2D
 
-const SPEED = 300
+const SPEED = 600
 
 var state = 'moving'
 
