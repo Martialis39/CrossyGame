@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgo8h18bn6i1y"]
+
+[ext_resource type="Texture2D" uid="uid://b0vhptpk0tvr5" path="res://assets/cat.png" id="1_0vacy"]
+
+[node name="Level2" type="Node2D"]
+
+[node name="Cat" type="Sprite2D" parent="."]
+position = Vector2(256, 192)
+texture = ExtResource("1_0vacy")
+
+[node name="Cat2" type="Sprite2D" parent="."]
+position = Vector2(384, 384)
+texture = ExtResource("1_0vacy")
+
+[node name="Cat3" type="Sprite2D" parent="."]
+position = Vector2(512, 192)
+texture = ExtResource("1_0vacy")

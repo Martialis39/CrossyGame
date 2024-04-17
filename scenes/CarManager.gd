@@ -10,6 +10,8 @@ var cars = []
 func _ready():
 	create_cars()
 	timer.timeout.connect(on_timeout)
+	
+	
 	pass # Replace with function body.
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dicwbthyafjcx"]
+[gd_scene load_steps=21 format=3 uid="uid://dicwbthyafjcx"]
 
 [ext_resource type="Texture2D" uid="uid://bfdg07llbfypf" path="res://assets/crossy_game_tilemap.png" id="1_8w4i1"]
 [ext_resource type="Texture2D" uid="uid://b0vhptpk0tvr5" path="res://assets/cat.png" id="2_v5so6"]
@@ -9,6 +9,7 @@
 [ext_resource type="Shader" path="res://scenes/turtle_body.gdshader" id="7_5ig74"]
 [ext_resource type="Texture2D" uid="uid://cfr2ly6lck5s7" path="res://assets/turtle_leg.png" id="7_r2wir"]
 [ext_resource type="Texture2D" uid="uid://v2trfsn23ego" path="res://assets/radial_fill.png" id="8_y2tp1"]
+[ext_resource type="PackedScene" uid="uid://dh6vo0lynt3jn" path="res://scenes/UI/ui_layer.tscn" id="10_8y5b2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_23g8j"]
 texture = ExtResource("1_8w4i1")
@@ -314,11 +315,16 @@ const MOVE_DURATION = 0.2
 
 var state = \"idle\"
 var on_turtle = false
+var level_over = false
 
 @export var tilemap_path : NodePath
 var tilemap
+var tilemap_rect
+var tilemap_size
+	
 
 var last_ground_position = null
+
 
 # if I am on water
 # but on turtle
@@ -334,6 +340,9 @@ func _ready():
 	var area = $Area2D
 	area.area_entered.connect(on_area_entered)
 	area.area_exited.connect(on_area_exited)
+	tilemap_rect = tilemap.get_used_rect()
+	tilemap_size = tilemap_rect.size
+	
 	
 	set_camera_limits()
 
@@ -346,14 +355,23 @@ func _process(delta):
 	var target = global_position
 	
 	if Input.is_action_just_pressed('ui_left'):
-		target.x = global_position.x - TILE_SIZE
-		pass
+		var potential_target_x = global_position.x - TILE_SIZE
+		if potential_target_x >= 0:
+			target.x = potential_target_x
+
 	if Input.is_action_just_pressed('ui_right'):
-		target.x = global_position.x + TILE_SIZE
-		pass
+		var potential_target_x = global_position.x + TILE_SIZE
+		if potential_target_x < tilemap_size.x * TILE_SIZE: # tilemap width
+			target.x = potential_target_x
+
 	if Input.is_action_just_pressed('ui_up'):
-		target.y = global_position.y - TILE_SIZE
+		var potential_target_y = global_position.y - TILE_SIZE
+		print('size y', tilemap_size.y * TILE_SIZE * -1)
+		print('target_y', potential_target_y)
+		if potential_target_y < tilemap_size.y * TILE_SIZE * -1:
+			level_over = true
 		pass
+		target.y = potential_target_y
 	pass
 	
 	if target != global_position:
@@ -375,6 +393,9 @@ func move_to(target_position):
 		
 func move_to_finished():
 	state = 'idle'
+	if level_over:
+		Events.level_over.emit()
+		return
 	maybe_set_last_ground_tile()
 	
 	if get_tile() == 'water':
@@ -411,9 +432,6 @@ func on_area_exited(area):
 
 func set_camera_limits():
 	assert(tilemap, \"No tilemap set!\")
-	
-	var tilemap_rect = tilemap.get_used_rect()
-	var tilemap_size = tilemap_rect.size
 	var camera = $Camera2D
 	
 	assert(camera, \"Player has no camera node!\")
@@ -518,3 +536,5 @@ position = Vector2(56, 56)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Cat/Area2D"]
 shape = SubResource("CapsuleShape2D_4h8t3")
+
+[node name="UILayer" parent="." instance=ExtResource("10_8y5b2")]
